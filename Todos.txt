@@ -1,0 +1,43 @@
+# TODOs
+
+| Firebase |
+
+[x] Setup Auth
+[x] Setup Connection to DB
+
+## Front End Operations
+- Read Owned Data / Inventory
+- Update Item
+- Delete Item
+[x] Create Item
+
+[x] Signup
+[x] Signin
+[x] Signout
+- Update Profile
+- Delete Profile
+
+## Data Strcuture
+
+collection_name: {
+  
+  prb_id: {
+    title: "Title of the Problem",
+    img_url: "img.ur/a/url",
+    main_info: "Main points and explanation",
+    fix_info: "steps / workarounds",
+    team: "who's working on this",
+    email_template: "email < body > content in HTML",
+    created_date: "date and time created",
+    last_modified: "last time data modified",
+    creator_email: "creator@email.com",
+    ownership: {
+      users: [],
+      groups: []
+    }
+  },
+
+}
+
+
+
