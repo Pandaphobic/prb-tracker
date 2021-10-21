@@ -21,8 +21,8 @@ class ItemsDataService {
     return items
   }
 
-  create(tutorial) {
-    return db.add(tutorial)
+  create(item) {
+    return db.add(item)
   }
 
   update(id, value) {

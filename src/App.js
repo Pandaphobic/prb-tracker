@@ -1,37 +1,18 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useFirebase } from "./contexts/FirebaseContext"
 import ItemsDataService from "./services/FirestoreService"
-import firebaseApp from "./firebase/firebase-config"
+import { v4 as uuidv4 } from "uuid"
+import ListComponent from "./components/ListComponent"
 
 function App() {
   const [inputEmail, setInputEmail] = useState("")
   const [inputPassword, setInputPassword] = useState("")
   const [itemTitle, setItemTitle] = useState()
 
-  const [items, setItems] = useState([])
-
   const [itemsFromDb, setItemsFromDb] = useState([])
   const [loading, setLoading] = useState(false)
 
   const [error, setError] = useState()
-
-  const ref = firebaseApp.firestore().collection("items")
-
-  function getItems() {
-    setLoading(true)
-    ref.onSnapshot(querySnapshot => {
-      const snapshotItems = []
-      querySnapshot.forEach(doc => {
-        snapshotItems.push(doc.data())
-      })
-      setItems(snapshotItems)
-      setLoading(false)
-    })
-  }
-
-  useEffect(() => {
-    getItems()
-  }, [])
 
   const { signup, signin, currentUser, logout, signInWithGooglePopup } = useFirebase()
 
@@ -78,7 +59,7 @@ function App() {
   }
 
   const handleAddItem = () => {
-    let item = { uid: currentUser.uid, title: itemTitle }
+    let item = { uid: currentUser.uid, id: uuidv4(), title: itemTitle }
     ItemsDataService.create(item)
   }
 
@@ -113,10 +94,10 @@ function App() {
       <br />
       <br />
       <h3>User Items</h3>
-      <ul>{items && items.map(item => <li>{item.title}</li>)}</ul>
-      <br />
 
-      <button onClick={getItems}>Load Items</button>
+      <ListComponent />
+      <br />
+      <button onClick={console.log("clicked Load Items button")}>Load Items</button>
       <br />
       <br />
       <h3>Add Item</h3>
