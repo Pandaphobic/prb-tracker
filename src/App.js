@@ -26,15 +26,24 @@ function App() {
         // This is how to exposed the newly created userid / firebase unique identifier
         console.log(cred.user.uid)
       })
-      await signin(inputEmail, inputPassword)
+      // await signin(inputEmail, inputPassword)
     } catch {
       setError("Failed to create account")
     }
     setLoading(false)
   }
 
-  const handleSignIn = e => {
+  const handleSignIn = async e => {
     e.preventDefault()
+    try {
+      setError("")
+      setLoading(true)
+      console.log(inputEmail)
+      await signin(inputEmail, inputPassword)
+    } catch {
+      setError("Failed to signout user")
+    }
+    setLoading(false)
   }
 
   const handleSignOut = e => {
@@ -73,8 +82,8 @@ function App() {
         <p>MAIN APP PAGE</p>
       </header>
       {currentUser && <h1>{currentUser.email}</h1>}
-      <input type="email" value={inputEmail} onChange={handleEmailChange}></input>
-      <input type="password" value={inputPassword} onChange={handlePasswordChange}></input>
+      {!currentUser && <input type="email" value={inputEmail} onChange={handleEmailChange}></input>}
+      {!currentUser && <input type="password" value={inputPassword} onChange={handlePasswordChange}></input>}
       <br />
       <button disabled={currentUser} onClick={handleSignUp}>
         Sign Up
@@ -94,11 +103,10 @@ function App() {
       <br />
       <br />
       <h3>User Items</h3>
-
       <ListComponent />
-      <br />
-      <button onClick={console.log("clicked Load Items button")}>Load Items</button>
-      <br />
+      {/* <br /> */}
+      {/* <button onClick={console.log("clicked Load Items button")}>Load Items</button> */}
+      {/* <br /> */}
       <br />
       <h3>Add Item</h3>
       <label>Title</label>
