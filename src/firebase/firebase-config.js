@@ -21,9 +21,9 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig)
+const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 // References
-export const firebaseAuth = app.auth()
-export const db = app.firestore()
-export default app
+export const firebaseAuth = firebaseApp.auth()
+export var itemsRef = firebaseApp.firestore()
+export default firebaseApp
