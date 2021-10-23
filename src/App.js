@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useFirebase } from "./contexts/FirebaseContext"
 import ItemsDataService from "./services/FirestoreService"
 import { v4 as uuidv4 } from "uuid"
 import ListComponent from "./components/ListComponent"
+import firebaseApp from "./firebase/firebase-config"
+
+const ref = firebaseApp.firestore()
 
 function App() {
   const [inputEmail, setInputEmail] = useState("")
@@ -71,6 +74,38 @@ function App() {
     let item = { uid: currentUser.uid, id: uuidv4(), title: itemTitle }
     ItemsDataService.create(item)
   }
+  const [items, setItems] = useState([])
+
+  const deleteItem = id => {
+    ItemsDataService.delete(id)
+  }
+
+  const [listLoading, setListLoading] = useState(false)
+  const [userLoggedIn, setUserLoggedIn] = useState(false)
+
+  function getItems() {
+    setListLoading(true)
+    if (!currentUser) {
+      setUserLoggedIn(false)
+      return
+    }
+    setUserLoggedIn(true)
+    ref
+      .collection("items")
+      .where("uid", "==", currentUser.uid)
+      .onSnapshot(querySnapshot => {
+        const snapshotItems = []
+        querySnapshot.forEach(doc => {
+          snapshotItems.push(doc.data())
+        })
+        setItems(snapshotItems)
+        setListLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    getItems()
+  }, [currentUser])
 
   if (loading) {
     return <>Loading...</>
@@ -91,7 +126,9 @@ function App() {
       <button disabled={currentUser} onClick={handleSignIn}>
         Sign In
       </button>
-      <button onClick={handleSignOut}>Sign Out</button>
+      <button disabled={!currentUser} onClick={handleSignOut}>
+        Sign Out
+      </button>
       <br />
       <label>google signin / signup</label>
       <br />
@@ -103,7 +140,7 @@ function App() {
       <br />
       <br />
       <h3>User Items</h3>
-      <ListComponent />
+      <ListComponent listLoading={listLoading} items={items} userLoggedIn={userLoggedIn} items={items} deleteItem={deleteItem} />
       {/* <br /> */}
       {/* <button onClick={console.log("clicked Load Items button")}>Load Items</button> */}
       {/* <br /> */}

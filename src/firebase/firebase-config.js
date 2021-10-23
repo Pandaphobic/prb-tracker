@@ -25,5 +25,5 @@ const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 // References
 export const firebaseAuth = firebaseApp.auth()
-export var itemsRef = firebaseApp.firestore().collection("items")
+export var itemsRef = firebaseApp.firestore()
 export default firebaseApp
