@@ -33,17 +33,19 @@ export function FirebaseProvider({ children }) {
   }
 
   useEffect(() => {
-    firebaseAuth.onAuthStateChanged(user => {
-      if (user) {
-        // when signed in
-        setCurrentUser(user)
-      } else {
-        // when not signed in
-        setCurrentUser(null)
-      }
-      setLoading(false)
-    })
-    let unsubscribe
+    let unsubscribe = () => {
+      firebaseAuth.onAuthStateChanged(user => {
+        if (user) {
+          // when signed in
+          setCurrentUser(user)
+        } else {
+          // when not signed in
+          setCurrentUser(null)
+        }
+        setLoading(false)
+      })
+    }
+    unsubscribe()
   }, [currentUser])
 
   const value = {

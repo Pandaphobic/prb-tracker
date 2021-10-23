@@ -10,7 +10,7 @@ export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBkJRH47VbD6qnM7RoaWwkslOuZC7c601U",
   authDomain: "prb-tracker-prod.firebaseapp.com",
@@ -25,5 +25,6 @@ const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 // References
 export const firebaseAuth = firebaseApp.auth()
-export var itemsRef = firebaseApp.firestore()
+export var itemsRef = firebaseApp.firestore().collection("items")
+export var db = firebaseApp.firestore()
 export default firebaseApp

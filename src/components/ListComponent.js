@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react"
-import { useFirebase } from "../contexts/FirebaseContext"
-import firebaseApp from "../firebase/firebase-config"
+import React from "react"
 
 // Icons
 import { FaTrashAlt } from "react-icons/fa"

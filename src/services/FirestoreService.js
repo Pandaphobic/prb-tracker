@@ -1,7 +1,4 @@
-import { itemsRef } from "../firebase/firebase-config"
-import { query, where, getDocs, doc, deleteDoc } from "firebase/firestore"
-
-const db = itemsRef
+import { db } from "../firebase/firebase-config"
 
 class ItemsDataService {
   async getAll() {
@@ -30,7 +27,7 @@ class ItemsDataService {
   }
 
   async delete(item) {
-    console.log(item.id)
+    console.log(`deleted : ${item.title}`)
     var item_query = db.collection("items").where("id", "==", item.id)
     item_query.get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
